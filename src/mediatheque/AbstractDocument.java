@@ -4,14 +4,12 @@ public abstract class AbstractDocument implements Document {
 	private int numero;
 	private String titre;
 
-	private Abonne abonneReserve;
-	private Abonne abonneEmprunt;
+	private EtatDocument etat;
 	
-	public AbstractDocument(int numero, String titre) {
+	public AbstractDocument(int numero, String titre, EtatDocument etat) {
 		this.numero = numero;
 		this.titre = titre;
-		this.abonneReserve = null;
-		this.abonneEmprunt = null;
+		this.etat = etat;
 	}
 	
 	@Override
@@ -25,7 +23,7 @@ public abstract class AbstractDocument implements Document {
 	 * @return Abonne
 	 */
 	public Abonne emprunteur() {
-		return this.abonneEmprunt;
+		return this.etat.emprunteur();
 	}
 
 	@Override
@@ -34,7 +32,7 @@ public abstract class AbstractDocument implements Document {
 	 * @return Abonne
 	 */
 	public Abonne reserveur() {
-		return this.abonneReserve;
+		return this.etat.reserveur();
 	}
 
 	@Override
@@ -43,9 +41,8 @@ public abstract class AbstractDocument implements Document {
 	 * @param ab : l'abonne qui reserve
 	 * @pre le document doit etre libre
 	 */
-	public void reservationPour(Abonne ab) {
-		assert(estLibre());
-		abonneReserve = ab;
+	public void reservationPour(Abonne ab) throws RestrictionException {
+		etat = etat.reservationPour(ab);
 	}
 	
 	@Override
@@ -55,10 +52,8 @@ public abstract class AbstractDocument implements Document {
 	 * @pre Le document doit etre libre ou l'abonne qui emprunte est le meme
 	 * que celui qui a reserve
 	 */
-	public void empruntPar(Abonne ab) {
-		assert(estLibre() || abonneReserve == ab);
-		abonneEmprunt = ab;
-		abonneReserve = null;
+	public void empruntPar(Abonne ab) throws RestrictionException {
+		etat = etat.empruntPar(ab);
 	}
 
 	@Override
@@ -66,7 +61,7 @@ public abstract class AbstractDocument implements Document {
 	 * @brief Retourne l'abonne qui a emprunte le document
 	 */
 	public void retour() {
-		abonneEmprunt = null;
+		etat = etat.retour();
 	}
 	
 	/**
@@ -74,7 +69,7 @@ public abstract class AbstractDocument implements Document {
 	 * @return boolean : true, si il est libre
 	 */
 	private boolean estLibre() {
-		return abonneReserve == null && abonneEmprunt == null;
+		return etat.estLibre();
 	}
 	
 	public String toString() {

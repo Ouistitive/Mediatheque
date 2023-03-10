@@ -8,10 +8,10 @@ public interface Document {
 	Abonne reserveur(); // Abonne qui a reserve ce document
 	
 	// @pre ni reserve ni emprunte
-	void reservationPour(Abonne ab);
+	void reservationPour(Abonne ab) throws RestrictionException;
 	
-	//@pre libre ou réservé par l’abonné qui vient emprunter
-	void empruntPar(Abonne ab);	
+	//@pre libre ou rï¿½servï¿½ par lï¿½abonnï¿½ qui vient emprunter
+	void empruntPar(Abonne ab) throws RestrictionException;	
 	
 	// @brief retour d'un document ou annulation d'une reservation
 	void retour();
