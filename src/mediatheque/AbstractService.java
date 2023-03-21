@@ -1,4 +1,4 @@
-package mediatheque.service;
+package mediatheque;
 
 import java.net.Socket;
 

@@ -15,4 +15,8 @@ public class Abonne {
 	public int getAge() {
 		return ANNEE_ACTUELLE - Integer.parseInt(dateNaissance.split("/")[2]);
 	}
+	
+	public int getNumero() {
+		return numero;
+	}
 }
