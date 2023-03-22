@@ -8,10 +8,7 @@ import mediatheque.service.ServiceReservation;
 import mediatheque.service.ServiceRetour;
 
 public class Appli {
-	public static void main(String[] args) {
-		
-		System.out.println(args[0]);
-		
+	public static void main(String[] args) {		
 		final int PORT_RESERVATION = 3000;
 		final int PORT_EMPRUNT = 4000;
 		final int PORT_RETOUR = 5000;

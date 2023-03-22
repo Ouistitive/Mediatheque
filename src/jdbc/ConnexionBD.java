@@ -8,7 +8,7 @@ import java.util.HashMap;
 import mediatheque.Document;
 
 public class ConnexionBD {
-	private static String url = "jdbc:mysql://localhost:3306/BDD";
+	private static String url = "jdbc:mysql://localhost:3306/Mediatheque";
 	private static String utilisateur = "root";
 	private static String motDePasse = "root";
 	
