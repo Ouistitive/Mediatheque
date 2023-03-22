@@ -1,3 +1,11 @@
+create database Mediatheque;
+
+use Mediatheque;
+
+
+DROP TABLE DVD;
+DROP TABLE Abonne;
+
 CREATE TABLE Abonne (
 	id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	nom VARCHAR(30),
