@@ -14,5 +14,5 @@ public interface Document {
 	void empruntPar(Abonne ab) throws RestrictionException;	
 	
 	// @brief retour d'un document ou annulation d'une reservation
-	void retour();
+	void retour() throws RestrictionException;
 }

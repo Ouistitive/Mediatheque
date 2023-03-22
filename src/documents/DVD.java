@@ -24,7 +24,7 @@ public class DVD extends AbstractDocument {
 			if(ab.getAge() >= AGE_MINIMAL)
 				super.reservationPour(ab);
 			else
-				throw new RestrictionException();
+				throw new RestrictionException("vous n’avez pas l’âge pour emprunter ce DVD");
 		}
 		else
 			super.reservationPour(ab);
@@ -36,7 +36,7 @@ public class DVD extends AbstractDocument {
 			if(ab.getAge() >= AGE_MINIMAL)
 				super.empruntPar(ab);
 			else
-				throw new RestrictionException();
+				throw new RestrictionException("vous n’avez pas l’âge pour emprunter ce DVD");
 		}
 		else
 			super.empruntPar(ab);

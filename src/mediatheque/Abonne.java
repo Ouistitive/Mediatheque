@@ -29,4 +29,9 @@ public class Abonne {
 	public int getNumero() {
 		return numero;
 	}
+	
+	@Override
+	public String toString() {
+		return numero + " " + nom + " " + dateNaissance.toString();
+	}
 }

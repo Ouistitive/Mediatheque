@@ -60,7 +60,7 @@ public abstract class AbstractDocument implements Document {
 	/**
 	 * @brief Retourne l'abonne qui a emprunte le document
 	 */
-	public void retour() {
+	public void retour() throws RestrictionException {
 		etat = etat.retour();
 	}
 	
@@ -73,6 +73,6 @@ public abstract class AbstractDocument implements Document {
 	}
 	
 	public String toString() {
-		return titre + " (" + numero + ")";
+		return "Numero : " + numero + ", " + titre + " (" + etat + ")";
 	}
 }
