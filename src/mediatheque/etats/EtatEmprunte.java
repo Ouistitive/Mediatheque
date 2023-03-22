@@ -1,6 +1,7 @@
 package mediatheque.etats;
 
 import mediatheque.Abonne;
+import mediatheque.Document;
 import mediatheque.EtatDocument;
 import mediatheque.RestrictionException;
 
@@ -8,6 +9,12 @@ public class EtatEmprunte extends EtatDocument {
 	private Abonne emprunteur;
 	
 	public EtatEmprunte(Abonne emprunteur) {
+		super();
+		this.emprunteur = emprunteur;
+	}
+	
+	public EtatEmprunte(Document d, Abonne emprunteur) {
+		super(d);
 		this.emprunteur = emprunteur;
 	}
 	
@@ -26,7 +33,7 @@ public class EtatEmprunte extends EtatDocument {
 	}
 	@Override
 	public EtatDocument retour() {
-		return new EtatLibre();
+		return new EtatLibre(super.getDoc());
 	}
 
 	public String toString() {

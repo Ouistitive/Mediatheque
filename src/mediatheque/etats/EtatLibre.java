@@ -1,11 +1,20 @@
 package mediatheque.etats;
 
 import mediatheque.Abonne;
+import mediatheque.Document;
 import mediatheque.EtatDocument;
 import mediatheque.RestrictionException;
 
 public class EtatLibre extends EtatDocument {
 
+	public EtatLibre() {
+		super();
+	}
+	
+	public EtatLibre(Document d) {
+		super(d);
+	}
+	
 	@Override
 	public boolean estLibre() {
 		return true;
@@ -13,12 +22,12 @@ public class EtatLibre extends EtatDocument {
 	
 	@Override
 	public EtatDocument reservationPour(Abonne a) {
-		return new EtatReserve(a);
+		return new EtatReserve(super.getDoc(), a);
 	}
 	
 	@Override
 	public EtatDocument empruntPar(Abonne a) {
-		return new EtatEmprunte(a);
+		return new EtatEmprunte(super.getDoc(), a);
 	}
 	
 	@Override

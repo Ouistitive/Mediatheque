@@ -1,5 +1,8 @@
 package mediatheque;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public abstract class AbstractDocument implements Document {
 	private int numero;
 	private String titre;
@@ -10,6 +13,7 @@ public abstract class AbstractDocument implements Document {
 		this.numero = numero;
 		this.titre = titre;
 		this.etat = etat;
+		this.etat.setDocument(this);
 	}
 	
 	@Override
@@ -43,6 +47,7 @@ public abstract class AbstractDocument implements Document {
 	 */
 	public void reservationPour(Abonne ab) throws RestrictionException {
 		etat = etat.reservationPour(ab);
+		
 	}
 	
 	@Override
@@ -75,4 +80,9 @@ public abstract class AbstractDocument implements Document {
 	public String toString() {
 		return "Numero : " + numero + ", " + titre + " (" + etat + ")";
 	}
+	
+	
+	
+	
+	
 }
