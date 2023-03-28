@@ -27,7 +27,9 @@ public abstract class AbstractDocument implements Document {
 	 * @return Abonne
 	 */
 	public Abonne emprunteur() {
-		return this.etat.emprunteur();
+		synchronized(this) {
+			return this.etat.emprunteur();
+		}
 	}
 
 	@Override
@@ -36,7 +38,9 @@ public abstract class AbstractDocument implements Document {
 	 * @return Abonne
 	 */
 	public Abonne reserveur() {
-		return this.etat.reserveur();
+		synchronized(this) {
+			return this.etat.reserveur();
+		}
 	}
 
 	@Override
@@ -46,7 +50,10 @@ public abstract class AbstractDocument implements Document {
 	 * @pre le document doit etre libre
 	 */
 	public void reservationPour(Abonne ab) throws RestrictionException {
-		etat = etat.reservationPour(ab);
+		// Empeche l'etat d'être modifié
+		synchronized(this) {
+			etat = etat.reservationPour(ab);
+		}
 		
 	}
 	
@@ -58,15 +65,20 @@ public abstract class AbstractDocument implements Document {
 	 * que celui qui a reserve
 	 */
 	public void empruntPar(Abonne ab) throws RestrictionException {
-		etat = etat.empruntPar(ab);
+		// Empeche l'etat d'être modifié
+		synchronized(this) {
+			etat = etat.empruntPar(ab);
+		}
 	}
 
 	@Override
 	/**
-	 * @brief Retourne l'abonne qui a emprunte le document
+	 * @brief Retourne le document à la mediatheque
 	 */
 	public void retour() throws RestrictionException {
-		etat = etat.retour();
+		synchronized(this) {
+			etat = etat.retour();
+		}
 	}
 	
 	/**
@@ -74,7 +86,10 @@ public abstract class AbstractDocument implements Document {
 	 * @return boolean : true, si il est libre
 	 */
 	private boolean estLibre() {
-		return etat.estLibre();
+		// Empeche l'etat d'être modifié
+		synchronized(this) {
+			return etat.estLibre();
+		}
 	}
 	
 	public String toString() {

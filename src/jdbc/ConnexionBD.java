@@ -13,11 +13,12 @@ import java.util.Map;
 import documents.DVD;
 import mediatheque.Abonne;
 import mediatheque.Document;
+import mediatheque.IConnexionBD;
 import mediatheque.ListeAbonnes;
 import mediatheque.etats.EtatEmprunte;
 import mediatheque.etats.EtatLibre;
 
-public class ConnexionBD {
+public class ConnexionBD implements IConnexionBD{
 	private static String url = "jdbc:mysql://localhost:3306/Mediatheque";
 	private static String utilisateur = "monty";
 	private static String motDePasse = "some_pass";
@@ -28,13 +29,13 @@ public class ConnexionBD {
 			Connection con = DriverManager.getConnection(url, utilisateur, motDePasse);
 			return con.createStatement();
         } catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return null;
 	}
 	
-	public static Map<Integer, Abonne> recupererAbonnes() {
+	@Override
+	public Map<Integer, Abonne> recupererAbonnes() {
 		Map<Integer, Abonne> map = new HashMap<>();
 		Statement stmt = connexion();
 		try {
@@ -51,14 +52,14 @@ public class ConnexionBD {
 	            map.put(idAbo, new Abonne(idAbo, nom, c));
 	         }
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return map;
 	}
 	
-	public static Map<Integer, Document> recupererDocuments() {
+	@Override
+	public Map<Integer, Document> recupererDocuments() {
 		Map<Integer, Document> map = new HashMap<>();
 		Statement stmt = connexion();
 		try {
@@ -78,7 +79,6 @@ public class ConnexionBD {
 	            
 	         }
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -90,7 +90,6 @@ public class ConnexionBD {
 		try {
 			stmt.executeUpdate("UPDATE DVD SET AbonneId = " + idAbo + " WHERE id = " + idDoc);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -100,7 +99,6 @@ public class ConnexionBD {
 		try {
 			stmt.executeUpdate("UPDATE DVD SET AbonneId = null WHERE id = " + idDoc);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

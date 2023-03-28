@@ -7,17 +7,8 @@ import jdbc.ConnexionBD;
 public class ListeDocuments {
 	private static Map<Integer, Document> documents;
 	
-	public ListeDocuments() {
-		documents = ConnexionBD.recupererDocuments();
-		
-		/*for (Map.Entry mapentry : documents.entrySet()) {
-			 System.out.println("clé: "+mapentry.getKey() 
-			 + " | valeur: " + mapentry.getValue());
-		}*/
-	}
-	
-	public static void setLesDocuments() {
-		documents = ConnexionBD.recupererDocuments();
+	public static void setLesDocuments(IConnexionBD bd) {
+		documents = bd.recupererDocuments();
 	}
 	
 	public static Document getDocument(int i) {

@@ -1,4 +1,4 @@
-package mediatheque.service;
+package services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,12 +9,12 @@ import java.net.Socket;
 import bttp2.Codage;
 import jdbc.ConnexionBD;
 import mediatheque.AbstractService;
+import mediatheque.ListeAbonnes;
 import mediatheque.ListeDocuments;
 import mediatheque.RestrictionException;
 
-public class ServiceRetour extends AbstractService {
-	
-	public ServiceRetour(Socket s) {
+public class ServiceEmprunt extends AbstractService {
+	public ServiceEmprunt(Socket s) {
 		super(s);
 	}
 
@@ -24,13 +24,16 @@ public class ServiceRetour extends AbstractService {
 			BufferedReader socketIn = new BufferedReader(new InputStreamReader(getSocket().getInputStream()));
 			PrintWriter socketOut = new PrintWriter(getSocket().getOutputStream(), true);
 			
+			socketOut.println(Codage.coder("Numéro d'abonné : "));
+			int numAbo = Integer.parseInt(Codage.decoder(new String(socketIn.readLine())));
 			socketOut.println(Codage.coder("Numéro de document : "));
 			int numDoc = Integer.parseInt(Codage.decoder(new String(socketIn.readLine())));
 			
 			try {
-				ListeDocuments.getDocument(numDoc).retour();
-				ConnexionBD.insererRetour(numDoc);
-				socketOut.println("Retour réussi");
+				ListeDocuments.getDocument(numDoc).empruntPar(ListeAbonnes.getAbonne(numAbo));
+				//Ne s'execute pas si empruntPar renvoie une Exception (donc pas de probleme de concurrence)
+				ConnexionBD.insererEmprunt(numDoc, numAbo);
+				socketOut.println("Emprunt réussi");
 			} catch (RestrictionException e) {
 				socketOut.println(e.toString());
 			}
@@ -39,5 +42,4 @@ public class ServiceRetour extends AbstractService {
 			e.printStackTrace();
 		}
 	}
-
 }
