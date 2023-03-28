@@ -2,8 +2,6 @@ package mediatheque;
 
 import java.util.Map;
 
-import jdbc.ConnexionBD;
-
 public class ListeAbonnes {
 	private static Map<Integer, Abonne> abonnes;
 	

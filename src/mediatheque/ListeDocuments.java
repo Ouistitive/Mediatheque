@@ -2,8 +2,6 @@ package mediatheque;
 
 import java.util.Map;
 
-import jdbc.ConnexionBD;
-
 public class ListeDocuments {
 	private static Map<Integer, Document> documents;
 	
@@ -18,7 +16,7 @@ public class ListeDocuments {
 	public static String getString() {
 		StringBuilder sb = new StringBuilder();
 		
-		for (Map.Entry mapentry : documents.entrySet()) {
+		for (Map.Entry<Integer, Document> mapentry : documents.entrySet()) {
 			sb.append(mapentry.getValue() + "\n");
 		}
 		

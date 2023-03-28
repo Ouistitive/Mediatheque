@@ -1,8 +1,5 @@
 package mediatheque;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public abstract class AbstractDocument implements Document {
 	private int numero;
 	private String titre;
@@ -27,9 +24,7 @@ public abstract class AbstractDocument implements Document {
 	 * @return Abonne
 	 */
 	public Abonne emprunteur() {
-		synchronized(this) {
-			return this.etat.emprunteur();
-		}
+		return this.etat.emprunteur();
 	}
 
 	@Override
@@ -38,9 +33,7 @@ public abstract class AbstractDocument implements Document {
 	 * @return Abonne
 	 */
 	public Abonne reserveur() {
-		synchronized(this) {
-			return this.etat.reserveur();
-		}
+		return this.etat.reserveur();
 	}
 
 	@Override
@@ -54,7 +47,6 @@ public abstract class AbstractDocument implements Document {
 		synchronized(this) {
 			etat = etat.reservationPour(ab);
 		}
-		
 	}
 	
 	@Override
@@ -76,21 +68,9 @@ public abstract class AbstractDocument implements Document {
 	 * @brief Retourne le document à la mediatheque
 	 */
 	public void retour() throws RestrictionException {
-		synchronized(this) {
-			etat = etat.retour();
-		}
+		etat = etat.retour();
 	}
 	
-	/**
-	 * @brief Teste sur le document est libre (ni reserve, ni emprunte)
-	 * @return boolean : true, si il est libre
-	 */
-	private boolean estLibre() {
-		// Empeche l'etat d'être modifié
-		synchronized(this) {
-			return etat.estLibre();
-		}
-	}
 	
 	public String toString() {
 		return "Numero : " + numero + ", " + titre + " (" + etat + ")";

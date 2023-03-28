@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import bttp2.Codage;
-import mediatheque.AbstractService;
 import mediatheque.ListeAbonnes;
 import mediatheque.ListeDocuments;
 import mediatheque.RestrictionException;

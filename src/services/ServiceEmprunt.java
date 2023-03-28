@@ -8,7 +8,6 @@ import java.net.Socket;
 
 import bttp2.Codage;
 import jdbc.ConnexionBD;
-import mediatheque.AbstractService;
 import mediatheque.ListeAbonnes;
 import mediatheque.ListeDocuments;
 import mediatheque.RestrictionException;
