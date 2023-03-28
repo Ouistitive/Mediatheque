@@ -45,6 +45,8 @@ public abstract class AbstractDocument implements Document {
 	public void reservationPour(Abonne ab) throws RestrictionException {
 		// Empeche l'etat d'être modifié
 		synchronized(this) {
+			if(ab.estBanni())
+				throw new RestrictionException("L'abonne n " + ab.getNumero() + " est banni, il ne peut pas réserver de document.");
 			etat = etat.reservationPour(ab);
 			System.out.println("reservation "+this);
 		}
@@ -60,6 +62,8 @@ public abstract class AbstractDocument implements Document {
 	public void empruntPar(Abonne ab) throws RestrictionException {
 		// Empeche l'etat d'être modifié
 		synchronized(this) {
+			if(ab.estBanni())
+				throw new RestrictionException("L'abonne n " + ab.getNumero() + " est banni, il ne peut pas emprunter de document.");
 			etat = etat.empruntPar(ab);
 			System.out.println("emprunt "+this);
 		}
@@ -69,7 +73,7 @@ public abstract class AbstractDocument implements Document {
 	/**
 	 * @brief Retourne le document à la mediatheque
 	 */
-	public void retour() throws RestrictionException {
+	public void retour(Abonne ab) throws RestrictionException {
 		etat = etat.retour();
 		System.out.println("retour "+this);
 	}

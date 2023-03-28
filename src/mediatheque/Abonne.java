@@ -9,6 +9,7 @@ public class Abonne {
 	private int numero;
 	private String nom;
 	private GregorianCalendar dateNaissance;
+	private GregorianCalendar dateBannissement;
 	private static Calendar cal;
 	
 	static {
@@ -16,10 +17,11 @@ public class Abonne {
 		cal.setTime(new Date());
 	}
 	
-	public Abonne(int numero, String nom, GregorianCalendar dateNaissance) {
+	public Abonne(int numero, String nom, GregorianCalendar dateNaissance, GregorianCalendar dateBannissement) {
 		this.numero = numero;
 		this.nom = nom;
 		this.dateNaissance = dateNaissance;
+		this.dateBannissement = dateBannissement;
 	}
 	
 	public int getAge() {
@@ -33,5 +35,16 @@ public class Abonne {
 	@Override
 	public String toString() {
 		return numero + " " + nom + " " + dateNaissance.toString();
+	}
+
+	public boolean estBanni() {
+		GregorianCalendar aujourdhui = new GregorianCalendar();
+		aujourdhui.setTime(new Date());
+		
+		return dateBannissement.after(aujourdhui);
+	}
+
+	public void bannir(GregorianCalendar dateBan) {
+		dateBannissement = dateBan;
 	}
 }

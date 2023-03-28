@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +21,8 @@ import mediatheque.etats.EtatLibre;
 
 public class ConnexionBD implements IConnexionBD{
 	private static String url = "jdbc:mysql://localhost:3306/Mediatheque";
-	private static String utilisateur = "monty";
-	private static String motDePasse = "some_pass";
+	private static String utilisateur = "root";
+	private static String motDePasse = "root";
 	
 	private static Statement connexion() {
         try {
@@ -38,6 +39,7 @@ public class ConnexionBD implements IConnexionBD{
 	public Map<Integer, Abonne> recupererAbonnes() {
 		Map<Integer, Abonne> map = new HashMap<>();
 		Statement stmt = connexion();
+		
 		try {
 			ResultSet rs = stmt.executeQuery("SELECT * FROM Abonne;");
 			
@@ -45,11 +47,15 @@ public class ConnexionBD implements IConnexionBD{
 	            int idAbo = rs.getInt("id");
 	            String nom = rs.getString("nom");
 	            Date dateNaiss = rs.getDate("dateNaiss");
+	            Date dateBan = rs.getDate("dateBanni");
 	            
 	            GregorianCalendar c = new GregorianCalendar();
 	            c.setTime(dateNaiss);
 	            
-	            map.put(idAbo, new Abonne(idAbo, nom, c));
+	            GregorianCalendar dateBanni = new GregorianCalendar();
+	            dateBanni.setTime(dateBan);
+	            
+	            map.put(idAbo, new Abonne(idAbo, nom, c, dateBanni));
 	         }
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -98,6 +104,17 @@ public class ConnexionBD implements IConnexionBD{
 		Statement stmt = connexion();
 		try {
 			stmt.executeUpdate("UPDATE DVD SET AbonneId = null WHERE id = " + idDoc);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void bannirAbonne(int numAbo, GregorianCalendar dateBanni) {
+		Statement stmt = connexion();
+		try {
+			stmt.executeUpdate("UPDATE Abonne SET dateBanni = "
+			+ "'" + dateBanni.get(Calendar.YEAR) + "-" + (dateBanni.get(Calendar.MONTH)+1) + "-" + dateBanni.get(Calendar.DAY_OF_MONTH) + ""
+					+ "' WHERE id = " + numAbo);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -73,7 +73,7 @@ public class EtatReserve extends EtatDocument {
 		@Override
 		public void run() {
 			try {
-				doc.retour();
+				doc.retour(reserveur);
 			} catch (RestrictionException e) {
 				e.printStackTrace();
 			}

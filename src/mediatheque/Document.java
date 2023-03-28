@@ -10,9 +10,9 @@ public interface Document {
 	// @pre ni reserve ni emprunte
 	void reservationPour(Abonne ab) throws RestrictionException;
 	
-	//@pre libre ou r�serv� par l�abonn� qui vient emprunter
+	//@pre libre ou reserve par l abonne qui vient emprunter
 	void empruntPar(Abonne ab) throws RestrictionException;	
 	
 	// @brief retour d'un document ou annulation d'une reservation
-	void retour() throws RestrictionException;
+	void retour(Abonne ab) throws RestrictionException;
 }
