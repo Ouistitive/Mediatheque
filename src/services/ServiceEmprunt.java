@@ -32,10 +32,12 @@ public class ServiceEmprunt extends AbstractService {
 				ListeDocuments.getDocument(numDoc).empruntPar(ListeAbonnes.getAbonne(numAbo));
 				//Ne s'execute pas si empruntPar renvoie une Exception (donc pas de probleme de concurrence)
 				ConnexionBD.insererEmprunt(numDoc, numAbo);
-				socketOut.println("Emprunt réussi");
+				
+				
 			} catch (RestrictionException e) {
 				socketOut.println(e.toString());
 			}
+			fermer();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

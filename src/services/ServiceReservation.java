@@ -31,10 +31,13 @@ public class ServiceReservation extends AbstractService {
 			
 			try {
 				ListeDocuments.getDocument(numDoc).reservationPour(ListeAbonnes.getAbonne(numAbo));
-				socketOut.println("Réservation réussie");
+				
+				
 			} catch (RestrictionException e) {
 				socketOut.println(e.toString());
+				
 			}
+			fermer();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

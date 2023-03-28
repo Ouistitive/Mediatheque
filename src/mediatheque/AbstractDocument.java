@@ -46,6 +46,7 @@ public abstract class AbstractDocument implements Document {
 		// Empeche l'etat d'être modifié
 		synchronized(this) {
 			etat = etat.reservationPour(ab);
+			System.out.println("reservation "+this);
 		}
 	}
 	
@@ -60,6 +61,7 @@ public abstract class AbstractDocument implements Document {
 		// Empeche l'etat d'être modifié
 		synchronized(this) {
 			etat = etat.empruntPar(ab);
+			System.out.println("emprunt "+this);
 		}
 	}
 
@@ -69,6 +71,7 @@ public abstract class AbstractDocument implements Document {
 	 */
 	public void retour() throws RestrictionException {
 		etat = etat.retour();
+		System.out.println("retour "+this);
 	}
 	
 	

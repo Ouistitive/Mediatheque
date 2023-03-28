@@ -29,10 +29,13 @@ public class ServiceRetour extends AbstractService {
 			try {
 				ListeDocuments.getDocument(numDoc).retour();
 				ConnexionBD.insererRetour(numDoc);
-				socketOut.println("Retour réussi");
+				
+				
 			} catch (RestrictionException e) {
 				socketOut.println(e.toString());
+				
 			}
+			fermer();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

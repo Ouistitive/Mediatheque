@@ -36,7 +36,6 @@ public class EtatReserve extends EtatDocument {
 
 	@Override
 	public Abonne reserveur() {
-		// TODO Auto-generated method stub
 		return reserveur;
 	}
 	
@@ -49,11 +48,15 @@ public class EtatReserve extends EtatDocument {
 	
 	@Override
 	public EtatDocument empruntPar(Abonne a) throws RestrictionException {
-		if(a == reserveur)
-			return new EtatEmprunte(super.getDoc(), a);
-		throw new RestrictionException("ce document est réservé jusqu’à " + heureReservation.get(Calendar.HOUR_OF_DAY) + "h" + heureReservation.get(Calendar.MINUTE));
+		synchronized(this) {
+			if(a == reserveur) {
+				this.timer.cancel();
+				return new EtatEmprunte(super.getDoc(), a);
+			}
+			throw new RestrictionException("ce document est réservé jusqu’à " + heureReservation.get(Calendar.HOUR_OF_DAY) + "h" + heureReservation.get(Calendar.MINUTE));
+	
+		}
 	}
-
 	public String toString() {
 		return "reserve";
 	}
