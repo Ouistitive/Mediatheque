@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 
 import bttp2.Codage;
 import jdbc.ConnexionBD;
+import mediatheque.Abonne;
 import mediatheque.CertificationBretteSoft;
 import mediatheque.ListeAbonnes;
 import mediatheque.ListeDocuments;
@@ -28,14 +29,11 @@ public class ServiceRetour extends AbstractService {
 			BufferedReader socketIn = new BufferedReader(new InputStreamReader(getSocket().getInputStream()));
 			PrintWriter socketOut = new PrintWriter(getSocket().getOutputStream(), true);
 			
-			socketOut.println(Codage.coder("Numéro de l'abonné : "));
-			int numAbo = Integer.parseInt(Codage.decoder(new String(socketIn.readLine())));
+			//socketOut.println(Codage.coder("Numéro de l'abonné : "));
+			//int numAbo = Integer.parseInt(Codage.decoder(new String(socketIn.readLine())));
 			
 			socketOut.println(Codage.coder("Numéro de document : "));
 			int numDoc = Integer.parseInt(Codage.decoder(new String(socketIn.readLine())));
-			
-			socketOut.println(Codage.coder("Le document a t'il été abimé ?##1. Oui##2. Non##"));
-			boolean abime = Integer.parseInt(Codage.decoder(new String(socketIn.readLine()))) == 1;
 			
 			try {
 				
@@ -49,15 +47,18 @@ public class ServiceRetour extends AbstractService {
 				System.out.print(dateRetourGregorian.get(Calendar.DAY_OF_MONTH) + "/" + dateRetourGregorian.get(Calendar.MONTH) + "/" + dateRetourGregorian.get(Calendar.YEAR));
 
 				System.out.println(" <= " + dateMaximale.get(Calendar.DAY_OF_MONTH) + "/" + dateMaximale.get(Calendar.MONTH) + "/" + dateMaximale.get(Calendar.YEAR));
+				Abonne emprunteur = ListeDocuments.getDocument(numDoc).emprunteur();
+				int numAbo = emprunteur==null ? 0 : emprunteur.getNumero();
 				
-				ListeDocuments.getDocument(numDoc).retour(ListeAbonnes.getAbonne(numAbo));
+				ListeDocuments.getDocument(numDoc).retour();
 				ConnexionBD.insererRetour(numDoc);
+				
+				socketOut.println(Codage.coder("Le document a t'il été abimé ?##1. Oui##2. Non##"));
+				boolean abime = Integer.parseInt(Codage.decoder(new String(socketIn.readLine()))) == 1;
 				
 				if(abime || !CertificationBretteSoft.retourDansLesTemps(numDoc)) {
 					bannir(numAbo);
 				}
-				
-				socketOut.println("Retour réussi");
 			} catch (RestrictionException e) {
 				socketOut.println(e.toString());
 				

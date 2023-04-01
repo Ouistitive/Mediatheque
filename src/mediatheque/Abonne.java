@@ -24,6 +24,10 @@ public class Abonne {
 		this.dateBannissement = dateBannissement;
 	}
 	
+	public Abonne(int numero, String nom, GregorianCalendar dateNaissance) {
+		this(numero, nom, dateNaissance, null);
+	}
+	
 	public int getAge() {
 		return cal.get(Calendar.YEAR) - dateNaissance.get(Calendar.YEAR);
 	}
@@ -38,6 +42,8 @@ public class Abonne {
 	}
 
 	public boolean estBanni() {
+		if(dateBannissement == null) return false;
+		
 		GregorianCalendar aujourdhui = new GregorianCalendar();
 		aujourdhui.setTime(new Date());
 		

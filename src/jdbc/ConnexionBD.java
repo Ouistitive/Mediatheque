@@ -94,7 +94,7 @@ public class ConnexionBD implements IConnexionBD{
 	public static void insererEmprunt(int idDoc, int idAbo) {
 		Statement stmt = connexion();
 		try {
-			stmt.executeUpdate("UPDATE DVD SET AbonneId = " + idAbo + ", derniereEmprunt = sysdate() WHERE id = " + idDoc);
+			stmt.executeUpdate("UPDATE DVD SET AbonneId = " + idAbo + ", dernierEmprunt = sysdate() WHERE id = " + idDoc);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

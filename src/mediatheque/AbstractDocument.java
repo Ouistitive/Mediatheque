@@ -73,7 +73,7 @@ public abstract class AbstractDocument implements Document {
 	/**
 	 * @brief Retourne le document à la mediatheque
 	 */
-	public void retour(Abonne ab) throws RestrictionException {
+	public void retour() throws RestrictionException {
 		etat = etat.retour();
 		System.out.println("retour "+this);
 	}
