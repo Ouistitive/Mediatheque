@@ -94,7 +94,7 @@ public class ConnexionBD implements IConnexionBD{
 	public static void insererEmprunt(int idDoc, int idAbo) {
 		Statement stmt = connexion();
 		try {
-			stmt.executeUpdate("UPDATE DVD SET AbonneId = " + idAbo + " WHERE id = " + idDoc);
+			stmt.executeUpdate("UPDATE DVD SET AbonneId = " + idAbo + ", derniereEmprunt = sysdate() WHERE id = " + idDoc);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -118,5 +118,17 @@ public class ConnexionBD implements IConnexionBD{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static Date recupererDateEmprunt(int numDoc) {
+		Statement stmt = connexion();
+		try {
+			ResultSet rs = stmt.executeQuery("SELECT dernierEmprunt FROM DVD WHERE id = " + numDoc);
+			if(rs.next())
+				return rs.getDate("dernierEmprunt");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
