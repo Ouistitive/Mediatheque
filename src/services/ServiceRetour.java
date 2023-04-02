@@ -8,14 +8,6 @@ import java.net.Socket;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import bttp2.Codage;
-import jdbc.ConnexionBD;
-import mediatheque.Abonne;
-import mediatheque.CertificationBretteSoft;
-import mediatheque.ListeAbonnes;
-import mediatheque.ListeAlertes;
-import mediatheque.ListeDocuments;
 import mediatheque.RestrictionException;
 
 public class ServiceRetour extends AbstractService {
@@ -38,7 +30,7 @@ public class ServiceRetour extends AbstractService {
 			
 			try {
 				
-				Date dateRetour = ConnexionBD.recupererDateEmprunt(numDoc);
+				Date dateRetour = mediatheque.recupererDateEmprunt(numDoc);
 				GregorianCalendar dateMaximale = new GregorianCalendar();
 				dateMaximale.setTime(dateRetour);
 				dateMaximale.add(Calendar.DAY_OF_MONTH, 14);
@@ -48,21 +40,19 @@ public class ServiceRetour extends AbstractService {
 				//System.out.print(dateRetourGregorian.get(Calendar.DAY_OF_MONTH) + "/" + dateRetourGregorian.get(Calendar.MONTH) + "/" + dateRetourGregorian.get(Calendar.YEAR));
 
 				//System.out.println(" <= " + dateMaximale.get(Calendar.DAY_OF_MONTH) + "/" + dateMaximale.get(Calendar.MONTH) + "/" + dateMaximale.get(Calendar.YEAR));
-				Abonne emprunteur = ListeDocuments.getDocument(numDoc).emprunteur();
-				int numAbo = emprunteur==null ? 0 : emprunteur.getNumero();
 				
-				ListeDocuments.getDocument(numDoc).retour();
-				ConnexionBD.insererRetour(numDoc);
 				
-				ListeAlertes.envoyerMail(numDoc);
-				ListeAlertes.supprimer(numDoc);
+				
 				
 				socketOut.println(Codage.coder("Le document a t'il été abimé ?##1. Oui##2. Non##"));
 				boolean abime = Integer.parseInt(Codage.decoder(new String(socketIn.readLine()))) == 1;
 				
-				if(abime || !CertificationBretteSoft.retourDansLesTemps(numDoc)) {
-					bannir(numAbo);
-				}
+				
+				
+				mediatheque.insererRetour(numDoc, abime);
+				
+				
+				
 			} catch (RestrictionException e) {
 				socketOut.println(e.toString());
 				
@@ -74,16 +64,5 @@ public class ServiceRetour extends AbstractService {
 		}
 	}
 
-	/**
-	 * @brief Ban un abonne pendant 1 mois
-	 * @param numAbo : Le numero de l'abonne banni
-	 */
-	private void bannir(int numAbo) {
-		GregorianCalendar dateBan = new GregorianCalendar();
-		dateBan.setTime(new Date());
-		dateBan.add(Calendar.MONTH, 1);
-		
-		ListeAbonnes.getAbonne(numAbo).bannir(dateBan);
-		ConnexionBD.bannirAbonne(numAbo, dateBan);
-	}
+	
 }

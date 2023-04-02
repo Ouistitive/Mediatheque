@@ -1,4 +1,4 @@
-package documents;
+package appli;
 
 import mediatheque.Abonne;
 import mediatheque.AbstractDocument;

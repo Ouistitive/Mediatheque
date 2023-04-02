@@ -1,4 +1,4 @@
-package jdbc;
+package mediatheque;
 
 import java.util.Date;
 import java.util.Properties;

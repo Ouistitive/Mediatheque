@@ -1,4 +1,4 @@
-package jdbc;
+package appli;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -11,13 +11,12 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import documents.DVD;
 import mediatheque.Abonne;
 import mediatheque.Document;
+import mediatheque.EtatEmprunte;
+import mediatheque.EtatLibre;
 import mediatheque.IConnexionBD;
-import mediatheque.ListeAbonnes;
-import mediatheque.etats.EtatEmprunte;
-import mediatheque.etats.EtatLibre;
+import mediatheque.Mediatheque;
 
 public class ConnexionBD implements IConnexionBD{
 	private static String url = "jdbc:mysql://localhost:3306/Mediatheque";
@@ -65,7 +64,7 @@ public class ConnexionBD implements IConnexionBD{
 	}
 	
 	@Override
-	public Map<Integer, Document> recupererDocuments() {
+	public Map<Integer, Document> recupererDocuments(Mediatheque m) {
 		Map<Integer, Document> map = new HashMap<>();
 		Statement stmt = connexion();
 		try {
@@ -81,7 +80,7 @@ public class ConnexionBD implements IConnexionBD{
 	            	new DVD(idDoc, titre, adulte, 
 	            	(dispo == 0 ? 
 	            		new EtatLibre() 
-	            	: new EtatEmprunte(ListeAbonnes.getAbonne(dispo)))));
+	            	: new EtatEmprunte(m.getAbonne(dispo)))));
 	            
 	         }
 		} catch (SQLException e) {
@@ -91,7 +90,7 @@ public class ConnexionBD implements IConnexionBD{
 		return map;
 	}
 	
-	public static void insererEmprunt(int idDoc, int idAbo) {
+	public void insererEmprunt(int idDoc, int idAbo) {
 		Statement stmt = connexion();
 		try {
 			stmt.executeUpdate("UPDATE DVD SET AbonneId = " + idAbo + ", dernierEmprunt = sysdate() WHERE id = " + idDoc);
@@ -100,7 +99,7 @@ public class ConnexionBD implements IConnexionBD{
 		}
 	}
 	
-	public static void insererRetour(int idDoc) {
+	public void insererRetour(int idDoc) {
 		Statement stmt = connexion();
 		try {
 			stmt.executeUpdate("UPDATE DVD SET AbonneId = null WHERE id = " + idDoc);
@@ -109,7 +108,7 @@ public class ConnexionBD implements IConnexionBD{
 		}
 	}
 
-	public static void bannirAbonne(int numAbo, GregorianCalendar dateBanni) {
+	public void bannirAbonne(int numAbo, GregorianCalendar dateBanni) {
 		Statement stmt = connexion();
 		try {
 			stmt.executeUpdate("UPDATE Abonne SET dateBanni = "
@@ -120,7 +119,7 @@ public class ConnexionBD implements IConnexionBD{
 		}
 	}
 	
-	public static Date recupererDateEmprunt(int numDoc) {
+	public Date recupererDateEmprunt(int numDoc) {
 		Statement stmt = connexion();
 		try {
 			ResultSet rs = stmt.executeQuery("SELECT dernierEmprunt FROM DVD WHERE id = " + numDoc);

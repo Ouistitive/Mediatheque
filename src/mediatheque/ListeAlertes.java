@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jdbc.Mail;
-
 public class ListeAlertes {
 	private static Map<Integer, List<Mail>> mails; // Couple (mail, numero doc)
 	

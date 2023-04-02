@@ -1,10 +1,4 @@
-package mediatheque.etats;
-
-import mediatheque.Abonne;
-import mediatheque.Document;
-import mediatheque.EtatDocument;
-import mediatheque.IndisponibleException;
-import mediatheque.RestrictionException;
+package mediatheque;
 
 public class EtatEmprunte extends EtatDocument {
 	private Abonne emprunteur;

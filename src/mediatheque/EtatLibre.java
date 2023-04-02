@@ -1,9 +1,4 @@
-package mediatheque.etats;
-
-import mediatheque.Abonne;
-import mediatheque.Document;
-import mediatheque.EtatDocument;
-import mediatheque.RestrictionException;
+package mediatheque;
 
 public class EtatLibre extends EtatDocument {
 

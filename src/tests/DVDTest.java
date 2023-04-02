@@ -6,11 +6,11 @@ import java.util.GregorianCalendar;
 
 import org.junit.jupiter.api.Test;
 
-import documents.DVD;
+import appli.DVD;
 import mediatheque.Abonne;
 import mediatheque.Document;
+import mediatheque.EtatLibre;
 import mediatheque.RestrictionException;
-import mediatheque.etats.EtatLibre;
 
 class DVDTest {
 
