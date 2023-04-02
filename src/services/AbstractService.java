@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import bserveur.Service;
+import bttp2.Codage;
 import mediatheque.Mediatheque;
 
 public abstract class AbstractService implements Service {
@@ -12,6 +13,13 @@ public abstract class AbstractService implements Service {
 	
 	public AbstractService(Socket s) {
 		client = s;
+	}
+	
+	protected String encoder(String msg) {
+		return Codage.coder(msg);
+	}
+	protected String decoder(String msg) {
+		return Codage.decoder(msg);
 	}
 	
 	public static void setMediatheque(Mediatheque m) {

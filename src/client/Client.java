@@ -1,7 +1,7 @@
-package appli;
+package client;
 
-import static services.Codage.coder;
-import static services.Codage.decoder;
+import static bttp2.Codage.coder;
+import static bttp2.Codage.decoder;
 
 import java.io.BufferedReader;
 import java.io.IOException;

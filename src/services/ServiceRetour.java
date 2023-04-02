@@ -25,8 +25,8 @@ public class ServiceRetour extends AbstractService {
 			//socketOut.println(Codage.coder("Numéro de l'abonné : "));
 			//int numAbo = Integer.parseInt(Codage.decoder(new String(socketIn.readLine())));
 			
-			socketOut.println(Codage.coder("Numéro de document : "));
-			int numDoc = Integer.parseInt(Codage.decoder(new String(socketIn.readLine())));
+			socketOut.println(encoder("Numéro de document : "));
+			int numDoc = Integer.parseInt(decoder(new String(socketIn.readLine())));
 			
 			try {
 				
@@ -44,8 +44,8 @@ public class ServiceRetour extends AbstractService {
 				
 				
 				
-				socketOut.println(Codage.coder("Le document a t'il été abimé ?##1. Oui##2. Non##"));
-				boolean abime = Integer.parseInt(Codage.decoder(new String(socketIn.readLine()))) == 1;
+				socketOut.println(encoder("Le document a t'il été abimé ?##1. Oui##2. Non##"));
+				boolean abime = Integer.parseInt(decoder(new String(socketIn.readLine()))) == 1;
 				
 				
 				

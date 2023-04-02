@@ -1,4 +1,4 @@
-package services;
+package bttp2;
 
 public class Codage {
 	public static String coder(String txt) {

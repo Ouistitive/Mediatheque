@@ -21,11 +21,11 @@ public class ServiceReservation extends AbstractService {
 			PrintWriter socketOut = new PrintWriter(getSocket().getOutputStream(), true);
 			
 			
-			socketOut.println(Codage.coder(mediatheque.getString() + "\n" + "Numéro d'abonné : "));
+			socketOut.println(encoder(mediatheque.getString() + "\n" + "Numéro d'abonné : "));
 
-			int numAbo = Integer.parseInt(Codage.decoder(new String(socketIn.readLine())));
-			socketOut.println(Codage.coder("Numéro de document : "));
-			int numDoc = Integer.parseInt(Codage.decoder(new String(socketIn.readLine())));
+			int numAbo = Integer.parseInt(decoder(new String(socketIn.readLine())));
+			socketOut.println(encoder("Numéro de document : "));
+			int numDoc = Integer.parseInt(decoder(new String(socketIn.readLine())));
 			
 			try {
 				mediatheque.reservationPour(numDoc, numAbo);
@@ -33,20 +33,20 @@ public class ServiceReservation extends AbstractService {
 				
 				
 			} catch (IndisponibleException e) {
-				socketOut.println(Codage.coder(e.toString() + "##Voulez-vous recevoir un mail lorsque le"
+				socketOut.println(encoder(e.toString() + "##Voulez-vous recevoir un mail lorsque le"
 						+ " document sera retourné ?##1. Oui##2. Non##"));
 				
-				boolean doitEnvoyerMail = Integer.parseInt(Codage.decoder(new String(socketIn.readLine()))) == 1;
+				boolean doitEnvoyerMail = Integer.parseInt(decoder(new String(socketIn.readLine()))) == 1;
 				if(doitEnvoyerMail) {
-					socketOut.println(Codage.coder("Votre adresse email : "));
-					String adresse = Codage.decoder(new String(socketIn.readLine()));
+					socketOut.println(encoder("Votre adresse email : "));
+					String adresse = decoder(new String(socketIn.readLine()));
 					
 					mediatheque.nouvelleAlerte(adresse, numDoc);
 					
 					
 				}
 			} catch (RestrictionException e) {
-				socketOut.println(Codage.coder(e.toString()));
+				socketOut.println(encoder(e.toString()));
 			}
 			fermer();
 			

@@ -19,10 +19,10 @@ public class ServiceEmprunt extends AbstractService {
 			BufferedReader socketIn = new BufferedReader(new InputStreamReader(getSocket().getInputStream()));
 			PrintWriter socketOut = new PrintWriter(getSocket().getOutputStream(), true);
 			
-			socketOut.println(Codage.coder("Numéro d'abonné : "));
-			int numAbo = Integer.parseInt(Codage.decoder(new String(socketIn.readLine())));
-			socketOut.println(Codage.coder("Numéro de document : "));
-			int numDoc = Integer.parseInt(Codage.decoder(new String(socketIn.readLine())));
+			socketOut.println(encoder("Numéro d'abonné : "));
+			int numAbo = Integer.parseInt(decoder(new String(socketIn.readLine())));
+			socketOut.println(encoder("Numéro de document : "));
+			int numDoc = Integer.parseInt(decoder(new String(socketIn.readLine())));
 			
 			try {
 				mediatheque.insererEmprunt(numDoc, numAbo);
