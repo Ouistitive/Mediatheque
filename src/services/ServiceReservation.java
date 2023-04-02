@@ -21,7 +21,7 @@ public class ServiceReservation extends AbstractService {
 			PrintWriter socketOut = new PrintWriter(getSocket().getOutputStream(), true);
 			
 			
-			socketOut.println(encoder(mediatheque.getString() + "\n" + "Numéro d'abonné : "));
+			socketOut.println(encoder(mediatheque.getCatalogue() + "\n" + "Numéro d'abonné : "));
 
 			int numAbo = Integer.parseInt(decoder(new String(socketIn.readLine())));
 			socketOut.println(encoder("Numéro de document : "));
