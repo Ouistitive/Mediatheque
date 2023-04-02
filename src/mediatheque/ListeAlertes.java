@@ -20,6 +20,7 @@ public class ListeAlertes {
 	}
 	
 	public static void envoyerMail(int numDoc) {
+		if(mails.get(numDoc) == null) return;
 		for(Mail m : mails.get(numDoc)) {
 			m.envoyer();
 		}
