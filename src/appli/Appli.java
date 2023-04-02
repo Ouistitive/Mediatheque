@@ -4,15 +4,16 @@ import java.io.IOException;
 
 import bserveur.Serveur;
 import jdbc.ConnexionBD;
+import jdbc.Mail;
 import mediatheque.ListeAbonnes;
+import mediatheque.ListeAlertes;
 import mediatheque.ListeDocuments;
 import services.ServiceEmprunt;
 import services.ServiceReservation;
 import services.ServiceRetour;
 
 public class Appli {
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) {		
 		final int PORT_RESERVATION = 3000;
 		final int PORT_EMPRUNT = 4000;
 		final int PORT_RETOUR = 5000;

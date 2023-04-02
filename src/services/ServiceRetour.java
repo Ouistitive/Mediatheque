@@ -14,6 +14,7 @@ import jdbc.ConnexionBD;
 import mediatheque.Abonne;
 import mediatheque.CertificationBretteSoft;
 import mediatheque.ListeAbonnes;
+import mediatheque.ListeAlertes;
 import mediatheque.ListeDocuments;
 import mediatheque.RestrictionException;
 
@@ -44,14 +45,17 @@ public class ServiceRetour extends AbstractService {
 				GregorianCalendar dateRetourGregorian = new GregorianCalendar();
 				dateRetourGregorian.setTime(new Date());
 				
-				System.out.print(dateRetourGregorian.get(Calendar.DAY_OF_MONTH) + "/" + dateRetourGregorian.get(Calendar.MONTH) + "/" + dateRetourGregorian.get(Calendar.YEAR));
+				//System.out.print(dateRetourGregorian.get(Calendar.DAY_OF_MONTH) + "/" + dateRetourGregorian.get(Calendar.MONTH) + "/" + dateRetourGregorian.get(Calendar.YEAR));
 
-				System.out.println(" <= " + dateMaximale.get(Calendar.DAY_OF_MONTH) + "/" + dateMaximale.get(Calendar.MONTH) + "/" + dateMaximale.get(Calendar.YEAR));
+				//System.out.println(" <= " + dateMaximale.get(Calendar.DAY_OF_MONTH) + "/" + dateMaximale.get(Calendar.MONTH) + "/" + dateMaximale.get(Calendar.YEAR));
 				Abonne emprunteur = ListeDocuments.getDocument(numDoc).emprunteur();
 				int numAbo = emprunteur==null ? 0 : emprunteur.getNumero();
 				
 				ListeDocuments.getDocument(numDoc).retour();
 				ConnexionBD.insererRetour(numDoc);
+				
+				ListeAlertes.envoyerMail(numDoc);
+				ListeAlertes.supprimer(numDoc);
 				
 				socketOut.println(Codage.coder("Le document a t'il été abimé ?##1. Oui##2. Non##"));
 				boolean abime = Integer.parseInt(Codage.decoder(new String(socketIn.readLine()))) == 1;
