@@ -41,4 +41,9 @@ public class DVD extends AbstractDocument {
 		else
 			super.empruntPar(ab);
 	}
+	
+	@Override
+	public String toString() {
+		return "[DVD] "+ super.toString();
+	}
 }

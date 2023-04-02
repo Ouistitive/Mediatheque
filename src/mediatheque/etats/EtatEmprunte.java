@@ -3,6 +3,7 @@ package mediatheque.etats;
 import mediatheque.Abonne;
 import mediatheque.Document;
 import mediatheque.EtatDocument;
+import mediatheque.IndisponibleException;
 import mediatheque.RestrictionException;
 
 public class EtatEmprunte extends EtatDocument {
@@ -19,11 +20,11 @@ public class EtatEmprunte extends EtatDocument {
 	}
 	
 	public EtatDocument reservationPour(Abonne a) throws RestrictionException {
-		throw new RestrictionException("ce DVD est déjà emprunté");
+		throw new IndisponibleException(super.getDoc().toString() +" est déjà emprunté");
 	}
 	
 	public EtatDocument empruntPar(Abonne a) throws RestrictionException {
-		throw new RestrictionException("ce DVD est déjà emprunté");
+		throw new IndisponibleException(super.getDoc().toString() +" est déjà emprunté");
 	}
 	
 	@Override

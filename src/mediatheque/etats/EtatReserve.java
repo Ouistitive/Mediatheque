@@ -9,6 +9,8 @@ import java.util.TimerTask;
 import mediatheque.Abonne;
 import mediatheque.Document;
 import mediatheque.EtatDocument;
+import mediatheque.IndisponibleException;
+import mediatheque.ListeAlertes;
 import mediatheque.RestrictionException;
 
 public class EtatReserve extends EtatDocument {
@@ -31,7 +33,7 @@ public class EtatReserve extends EtatDocument {
 	}
 	
 	public EtatDocument reservationPour(Abonne a) throws RestrictionException {
-		throw new RestrictionException("ce document est réservé jusqu’à " + heureReservation.get(Calendar.HOUR_OF_DAY) + "h" + heureReservation.get(Calendar.MINUTE));
+		throw new IndisponibleException(super.getDoc().toString()+" est réservé jusqu’à " + heureReservation.get(Calendar.HOUR_OF_DAY) + "h" + heureReservation.get(Calendar.MINUTE));
 	}
 
 	@Override
@@ -53,7 +55,7 @@ public class EtatReserve extends EtatDocument {
 				this.timer.cancel();
 				return new EtatEmprunte(super.getDoc(), a);
 			}
-			throw new RestrictionException("ce document est réservé jusqu’à " + heureReservation.get(Calendar.HOUR_OF_DAY) + "h" + heureReservation.get(Calendar.MINUTE));
+			throw new IndisponibleException(super.getDoc().toString()+" est réservé jusqu’à " + heureReservation.get(Calendar.HOUR_OF_DAY) + "h" + heureReservation.get(Calendar.MINUTE));
 	
 		}
 	}
@@ -74,6 +76,8 @@ public class EtatReserve extends EtatDocument {
 		public void run() {
 			try {
 				doc.retour();
+				ListeAlertes.envoyerMail(doc.numero());
+				ListeAlertes.supprimer(doc.numero());
 			} catch (RestrictionException e) {
 				e.printStackTrace();
 			}
